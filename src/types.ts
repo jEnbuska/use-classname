@@ -1,5 +1,5 @@
 // config type passed to StyleProvider as scopedStylisConfig and globalStylisConfig
-export type StylisOptions = {
+export type StylisConfig = {
     keyframe?: boolean;
     cascade?: boolean;
     compress?: boolean;
@@ -19,9 +19,10 @@ export type CssMetaData = {
 
 // Sheet type passed to StyleProvider which useClassName uses for adding and removing styles
 export type Sheet<S = any> = {
-    addCss(css: string): S;
-    removeCss?(node: S): void;
-    willUnmount?(): void;
+    initialize?: () => void; // called once on during first render
+    addCss(css: string): S; // called every when a new css is defined
+    removeCss?(node: S): void; // called when css is no longer user, after ttl duration
+    willUnmount?(): void; // called during StyleProvider unmount
 };
 
 export type Stylisis = {

@@ -1,4 +1,4 @@
-To run the example project:
+To run the example project locally:
 
 ```git clone git@github.com:jEnbuska/use-classname.git```
 

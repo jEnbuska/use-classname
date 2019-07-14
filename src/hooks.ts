@@ -1,7 +1,7 @@
 import { useContext, useEffect, useMemo, useLayoutEffect, useRef } from 'react';
 import Stylis from 'stylis';
 import StyleContext from './StyleContext';
-import {StylisOptions, CssMetaData, Sheet} from './types';
+import {StylisConfig, CssMetaData, Sheet} from './types';
 
 const CssMetaData = new Map<string, CssMetaData>();
 const defaultConfig = {global: false};
@@ -89,10 +89,13 @@ export function useDevWarnings(props: any) {
 export function useSheet(sheet?: Sheet): Sheet {
   const sheetInstance = useMemo<Sheet>(() => {
     if(sheet) return sheet;
-    const head = document.head || document.getElementsByTagName('head')[0];
-    const styleElement = document.createElement('style');
-    head.appendChild(styleElement);
+    let styleElement: HTMLElement;
     return {
+      initialize(){
+        const head = document.head || document.getElementsByTagName('head')[0];
+        styleElement = document.createElement('style');
+        head.appendChild(styleElement);
+      },
       addCss(css: string) {
         const node: Text = document.createTextNode(css);
         styleElement.append(node);
@@ -120,7 +123,7 @@ const defaultStylisConfig = {
   preserve: true,
 };
 
-export function useStylis(scopedStylisConfig?: StylisOptions, globalStylisConfig?: StylisOptions) {
+export function useStylis(scopedStylisConfig?: StylisConfig, globalStylisConfig?: StylisConfig) {
   return useMemo(() => {
     const scopedStylis = new Stylis({...defaultStylisConfig, global: false, ...scopedStylisConfig});
     const globalStylis = new Stylis({...defaultStylisConfig, global: true, ...globalStylisConfig});
