@@ -11,8 +11,8 @@ export type StyleProviderProps = {
   scopedStylisConfig?: StylisConfig; // scoped stylis config that will be merged with default stylis config
   globalStylisConfig?: StylisConfig; // global stylis config that will be merged with default stylis config
 }
-
-const StyleProvider: ComponentType<StyleProviderProps> = (props) => {
+// Named with underscore so that IDEs don't try to import resource from /dist
+const _StyleProvider: ComponentType<StyleProviderProps> = (props) => {
   const {children, classNamePrefix = 'use-classname', ttl = 0, scopedStylisConfig, globalStylisConfig} = props;
   useDevWarnings(props);
   const stylisis = useStylis(scopedStylisConfig, globalStylisConfig);
@@ -30,4 +30,4 @@ const StyleProvider: ComponentType<StyleProviderProps> = (props) => {
   );
 };
 
-export default StyleProvider;
+export default _StyleProvider;

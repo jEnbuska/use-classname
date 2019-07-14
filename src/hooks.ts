@@ -9,8 +9,9 @@ let classNameCount = 0;
 
 // Exported hooks ---START---
 
+// Named with underscore so that IDEs don't try to import resource from /dist
 // injects scoped css to style tag and return classname for that scope
-export function useClassName(css: string, {global} = defaultConfig): string {
+export function _useClassName(css: string, {global} = defaultConfig): string {
   const styleContext = useContext(StyleContext);
   if(!styleContext) throw new Error('StyleContext used without a parent provider');
   const {classNamePrefix, sheet, ttl, stylisis} = styleContext;
@@ -62,10 +63,11 @@ export function useClassName(css: string, {global} = defaultConfig): string {
   return className;
 }
 
+// Named with underscore so that IDEs don't try to import resource from /dist
 // injects global css to style tag
 const globalStylesConfig = {global: true};
-export function useGlobalStyles(css: string): void {
-  useClassName(css, globalStylesConfig);
+export function _useGlobalStyles(css: string): void {
+  _useClassName(css, globalStylesConfig);
 }
 
 // Exported hooks ---END---
