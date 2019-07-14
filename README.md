@@ -1,11 +1,11 @@
-### use-classname
+# use-classname
 
 ***This library is highly experimental. Please don't use it in production.***
 
 Simple hook based component styling library for React. 
 
-- Powered by [stylis](https://www.npmjs.com/package/stylis) 
-- Inspired by [styled-components](https://www.npmjs.com/package/styled-components) and [emotion](https://www.npmjs.com/package/emotion)
++ Powered by [stylis](https://www.npmjs.com/package/stylis) 
++ Inspired by [styled-components](https://www.npmjs.com/package/styled-components) and [emotion](https://www.npmjs.com/package/emotion)
 + No [HOC](https://reactjs.org/docs/higher-order-components.html):s
 + Typescript support 
 + No headache with typescript typings
@@ -30,7 +30,8 @@ const App = () => {
     
     const className = useClassName(´
         display: flex;
-    ´)
+    ´);
+    
     return (
         <div className={className}>
             {/* ... */}
@@ -58,7 +59,8 @@ const Input = ({css, ...rest}) => {
         ${theme.styles.formElement};
         ${theme.styles.input};
         ${css};
-    ´)
+    ´);
+    
     return (
         <input {...rest} className={className} />
     )
