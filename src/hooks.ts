@@ -3,55 +3,69 @@ import Stylis from 'stylis';
 import StyleContext from './StyleContext';
 import {StylisConfig, CssMetaData, Sheet} from './types';
 
-const CssMetaData = new Map<string, CssMetaData>();
-const defaultConfig = {global: false};
-let classNameCount = 0;
-
-// Exported hooks ---START---
-
 // Named with underscore so that IDEs don't try to import resource from /dist
-// injects scoped css to style tag and return classname for that scope
-export function _useClassName(css: string, {global} = defaultConfig): string {
-  const styleContext = useContext(StyleContext);
-  if(!styleContext) throw new Error('StyleContext used without a parent provider');
-  const {classNamePrefix, sheet, ttl, stylisis} = styleContext;
-  const cssKey = `${global ? 'global_' : 'scoped_'}${classNamePrefix}${css}`;
-  // Create CSS metadata or clear removal timeouts and increment usage
-  const definition = useMemo(() => {
-    if (CssMetaData.has(cssKey)) {
-      const data = CssMetaData.get(cssKey)!;
-      data.usage++;
-      clearTimeout(data.timeout);
-      data.timeout = 0;
+const defaultScopedConfig = {global: false};
+const globalStylesConfig = {global: true};
+// Named with underscore so that IDEs don't try to import resource from /dist
+export const publicHooks = {
+  // injects scoped css to style tag and return classname for that scope
+  _useClassName(css: string): string {
+    return useClassNameInternal(css, defaultScopedConfig);
+  },
+  // injects global css to style tag
+  _useGlobalStyles(css: string): void {
+    useClassNameInternal(css, globalStylesConfig);
+  }
+};
+
+// Exported hooks ---END---
+
+// Internal hooks ---START---
+
+
+const CssMetaData = new Map<string, CssMetaData>();
+let classNameCount = 0;
+function useClassNameInternal(css: string, {global}: {global: boolean}): string {
+    const styleContext = useContext(StyleContext);
+    if(!styleContext) throw new Error('StyleContext used without a parent provider');
+    const {classNamePrefix, sheet, ttl, stylisis} = styleContext;
+    const cssKey = `${global ? 'global_' : 'scoped_'}${classNamePrefix}${css}`;
+    // Create CSS metadata or clear removal timeouts and increment usage
+    const definition = useMemo(() => {
+      if (CssMetaData.has(cssKey)) {
+        const data = CssMetaData.get(cssKey)!;
+        data.usage++;
+        clearTimeout(data.timeout);
+        data.timeout = 0;
+        return data;
+      }
+      // create unique classname
+      const className = `${classNamePrefix}-${classNameCount++}`;
+      const data = {
+        initialized: false,
+        className,
+        node: null,
+        usage: 1,
+        timeout: 0,
+      };
+      CssMetaData.set(cssKey, data);
       return data;
-    }
-    // create unique classname
-    const className = `${classNamePrefix}-${classNameCount++}`;
-    const data = {
-      initialized: false,
-      className,
-      node: null,
-      usage: 1,
-      timeout: 0,
-    };
-    CssMetaData.set(cssKey, data);
-    return data;
-  }, [cssKey]);
+    }, [cssKey]);
 
-  const { className } = definition;
+    const { className } = definition;
 
-  // append css to style tag or skip if it has already been initialized
-  useLayoutEffect(() => {
-    if (definition.initialized) return;
-    const transpiled = global
+    // append css to style tag or skip if it has already been initialized
+    useLayoutEffect(() => {
+      if (definition.initialized) return;
+      const transpiled = global
         ? stylisis.global(css)
         : stylisis.scoped(`.${className}`, css);
-    definition.node  = sheet.addCss(transpiled);
-    definition.initialized = true;
-  }, [className]);
+      definition.node  = sheet.addCss(transpiled);
+      definition.initialized = true;
+    }, [className]);
 
-  // remove styles from style tag if it is no-longer used
-  useEffect(() => () => {
+    // remove styles from style tag if it is no-longer used
+    useEffect(() => () => {
         if (definition.timeout || --definition.usage) return;
         definition.timeout = setTimeout(() => {
           const { node } = definition;
@@ -59,20 +73,9 @@ export function _useClassName(css: string, {global} = defaultConfig): string {
           if(sheet.removeCss) sheet.removeCss(node);
         }, ttl);
       },[className]
-  );
-  return className;
+    );
+    return className;
 }
-
-// Named with underscore so that IDEs don't try to import resource from /dist
-// injects global css to style tag
-const globalStylesConfig = {global: true};
-export function _useGlobalStyles(css: string): void {
-  _useClassName(css, globalStylesConfig);
-}
-
-// Exported hooks ---END---
-
-// Internal hooks ---START---
 
 export function useDevWarnings(props: any) {
   if(process.env.NODE_ENV !== 'development') return;
