@@ -1,4 +1,4 @@
-import useClassName, {useGlobalStyles} from "../src";
+import {useGlobalStyles, useClassName} from "../src";
 import {renderTestAppWithHook} from './utils'
 
 

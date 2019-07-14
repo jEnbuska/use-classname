@@ -1,10 +1,10 @@
-import {_StyleProvider, StyleProviderProps} from "../src";
+import {StyleProvider, StyleProviderProps} from "../src";
 import {Sheet} from "../src/types";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
 export const TestStyleProvider = (props: StyleProviderProps) => {
-    return (<_StyleProvider {...props}/>)
+    return (<StyleProvider {...props}/>)
 };
 
 export function renderTestAppWithHook(cb: () => any){
