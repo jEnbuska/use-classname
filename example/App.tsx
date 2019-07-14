@@ -1,6 +1,6 @@
 import React, {ComponentType} from "react";
 import Todos from './Todos';
-import useClassName, {useGlobalStyles} from "../.";
+import {useGlobalStyles, useClassName} from "../.";
 import theme from "./theme";
 
 const App: ComponentType = () => {

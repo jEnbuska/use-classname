@@ -6,7 +6,7 @@ import React, {
   useReducer,
   useRef,
 } from 'react';
-import useClassName from '../../.';
+import { useClassName } from '../../.';
 import Checkbox from '../Elements/Checkbox';
 import Close from '../Elements/Close';
 import Input from '../Elements/Input';

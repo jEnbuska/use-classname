@@ -15,7 +15,7 @@ Simple hook based component styling library for React.
 #### Basic:
 ```
 /* ...  */
-import useClassName, { StyleProvider, useGlobalStyles } from 'use-classname';
+import { useClassName, StyleProvider, useGlobalStyles } from 'use-classname';
 import theme from './theme';
 
 const App = () => {
@@ -51,7 +51,7 @@ const Root = () => {
 #### Style overriding:
 ```
 /* ... */
-import useClassName from 'use-classname';
+import { useClassName } from 'use-classname';
 import theme from './theme';
 
 const Input = ({css, ...rest}) => {

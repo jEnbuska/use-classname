@@ -1,5 +1,5 @@
 import React, { ComponentType, useCallback, useState } from 'react';
-import useClassName from '../../.';
+import { useClassName } from '../../.';
 import { noGaps } from '../styles';
 import Button from '../Elements/Button';
 import Input from '../Elements/Input';

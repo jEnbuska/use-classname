@@ -1,5 +1,5 @@
 import React, { ComponentType } from 'react';
-import useClassName from '../../.';
+import { useClassName } from '../../.';
 import theme from "../theme";
 
 const TodosHeading: ComponentType<{}> = () => {

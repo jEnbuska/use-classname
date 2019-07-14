@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { noGaps } from '../styles';
-import useClassName from '../../.';
+import { useClassName } from '../../.';
 import theme from "../theme";
 
 type CloseProps = { onClick(): void };

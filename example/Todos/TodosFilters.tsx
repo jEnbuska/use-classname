@@ -1,5 +1,5 @@
 import React, { memo, useCallback } from 'react';
-import useClassName from '../../.';
+import { useClassName } from '../../.';
 import Button from '../Elements/Button';
 import theme from "../theme";
 

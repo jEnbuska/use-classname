@@ -1,10 +1,11 @@
 import React, { ComponentType, HTMLProps } from 'react';
-import useClassName from '../../.';
+import { useClassName } from '../../.';
 import theme from "../theme";
 
 type InputProps = {
   css?: string;
 } & HTMLProps<HTMLInputElement>;
+
 const Input: ComponentType<InputProps> = React.forwardRef(({ css, ...rest }, ref) => {
     const className = useInputClassName({ css });
     return <input ref={ref} {...rest} className={className} />;

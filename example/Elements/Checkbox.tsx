@@ -1,5 +1,5 @@
 import React from 'react';
-import useClassName from '../../.';
+import { useClassName } from '../../.';
 import theme from "../theme";
 
 type CheckboxProps = React.HTMLProps<HTMLInputElement>;

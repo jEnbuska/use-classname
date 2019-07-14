@@ -4,10 +4,10 @@ import React, {
   useReducer,
   useState,
 } from 'react';
-import useClassName from '../../.';
+import { useClassName } from '../../.';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
-import TodosHeader from './TodosHeader';
+import TodosHeading from './TodosHeading';
 import TodosFilter from './TodosFilters';
 import { getItemOrDefault } from '../utils';
 import theme from "../theme";
@@ -41,7 +41,7 @@ const TodoApp: ComponentType<{}> = () => {
   const className = useTodoAppClassName();
   return (
     <main className={className}>
-      <TodosHeader />
+      <TodosHeading />
       <TodoForm createTodo={createTodo} />
       <TodoList
         todos={todos}
