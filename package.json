@@ -12,6 +12,14 @@
   "files": [
     "dist"
   ],
+  "keywords": [
+    "react",
+    "styling",
+    "css",
+    "css-in-js",
+    "react hooks",
+    "react-hooks"
+  ],
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
